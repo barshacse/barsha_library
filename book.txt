@@ -1,0 +1,62 @@
+// create book table
+
+create table book
+(
+book_id number(4) not null,
+book_name varchar2(200) not null,
+book_type number(4) not null,
+self_number varchar2(200),
+quantity number(4) not null,
+constraint book_book_id_pk primary key(book_id)
+);
+
+//sequence
+create sequence book_seq start with 1;
+
+//trigger
+
+create or replace trigger book_tri
+before insert on book
+for each row
+begin
+select book_seq.NEXTVAL
+into :new.book_id
+from dual;
+end;
+
+
+//procedure
+
+//add book
+create or replace procedure book_insert(book_name BOOK.BOOK_NAME%TYPE,book_type BOOK.BOOK_TYPE%TYPE,self_number BOOK.SELF_NUMBER%TYPE,quantity BOOK.QUANTITY%TYPE)
+is
+begin 
+insert into book(book_name,book_type,self_number,quantity) values(book_name,book_type,self_number,quantity);
+commit;
+end;
+
+//update book
+create or replace procedure book_update(book_name1 BOOK.BOOK_NAME%TYPE,book_type1 BOOK.BOOK_TYPE%TYPE,self_number1 BOOK.SELF_NUMBER%TYPE,quantity1 BOOK.QUANTITY%TYPE,book_id1 BOOK.BOOK_ID%TYPE)
+is
+begin 
+update book set book_name=book_name1,book_type=book_type1,self_number=self_number1,quantity=quantity1 where book_id=book_id1;
+commit;
+end;
+
+
+//delete book
+
+create or replace procedure book_delete(book_id1 BOOK.BOOK_ID%TYPE)
+is
+begin 
+delete from book where book_id=book_id1;
+commit;
+end;
+
+
+
+
+//select 
+insert into book(book_name,book_type,self_number,quantity) values('Let Us C',1,'1A',10);
+insert into book(book_name,book_type,self_number,quantity) values('Operation Mangement',5,'5A',0);
+

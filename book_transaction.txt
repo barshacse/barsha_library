@@ -1,0 +1,26 @@
+//create table
+
+create table transaction
+(
+transaction_id number(4) not null,
+book_id number(4) not null,
+user_id number(4) not null,
+transaction_date date not null,
+status number(4) not null,
+constraint transaction_transaction_id_pk primary key(transaction_id)
+);
+
+//sequence
+
+create sequence tran_seq start with 1;
+
+//trigger
+
+create or replace trigger tran_tri
+before insert on transaction
+for each row
+begin
+select tran_seq.NEXTVAL
+into :new.transaction_id
+from dual;
+end;

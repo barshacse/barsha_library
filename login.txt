@@ -1,0 +1,34 @@
+
+//create login table
+create table login 
+(
+id number(4) not null,
+name varchar2(200) not null,
+email varchar2(200) not null,
+password varchar2(200) not null,
+type number(1) not null,
+constraint login_login_id_pk primary key(id)
+);
+
+//sequence
+
+create sequence login_seq start with 1;
+
+
+//trigger
+
+create or replace trigger login_tri
+before insert on login
+for each row
+begin
+select login_seq.NEXTVAL
+into :new.id
+from dual;
+end;
+
+//insert
+insert into login(name,email,password,type) values('admin','admin@gmail.com','admin',1);
+insert into login(name,email,password,type) values('user','user@gmail.com','user',2);
+
+//select query
+select * from login;
